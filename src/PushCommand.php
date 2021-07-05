@@ -44,37 +44,36 @@ class PushCommand extends BaseCommand
     protected function configure()
     {
         $this
-          ->setName('nexus-push')
-          ->setDescription('Initiate a push to a distant Nexus repository')
-          ->setDefinition([
-            new InputArgument('version', InputArgument::REQUIRED, 'The package version'),
-            new InputOption('name', null, InputArgument::OPTIONAL, 'Name of the package (if different from the composer.json file)'),
-            new InputOption('url', null, InputArgument::OPTIONAL, 'URL to the distant Nexus repository'),
-            new InputOption(self::REPOSITORY, null, InputArgument::OPTIONAL, 'which repository to save, use this parameter if you want to place development version and production version in different repository'),
-            new InputOption(
-                'username',
-                null,
-                InputArgument::OPTIONAL,
-                'Username to log in the distant Nexus repository'
-            ),
-            new InputOption('password', null, InputArgument::OPTIONAL, 'Password to log in the distant Nexus repository'),
-            new InputOption('ignore', 'i', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Directories and files to ignore when creating the zip'),
-            new InputOption('ignore-dirs', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, '<error>DEPRECATED</error> Directories to ignore when creating the zip'),
-            new InputOption('ignore-by-git-attributes', null, InputOption::VALUE_NONE, 'Ignore .gitattrbutes export-ignore directories when creating the zip'),
-            new InputOption('ignore-by-composer', null, InputOption::VALUE_NONE, 'Ignore composer.json archive-exclude files and directories when creating the zip'),
-            new InputOption('src-type', null, InputArgument::OPTIONAL, 'The source type (git/svn,...) pushed on composer on distant Nexus repository'),
-            new InputOption('src-url', null, InputArgument::OPTIONAL, 'The source url pushed on composer on distant Nexus repository'),
-            new InputOption('src-ref', null, InputArgument::OPTIONAL, 'The source reference pushed on composer on distant Nexus repository'),
-            new InputOption('keep-vendor', null, InputOption::VALUE_NONE, 'Keep vendor directory when creating zip'),
-            new InputOption('keep-dot-files', null, InputOption::VALUE_NONE, 'Keep dots files/dirs when creating zip')
-          ])
-          ->setHelp(
-              <<<EOT
+            ->setName('nexus-push')
+            ->setDescription('Initiate a push to a distant Nexus repository')
+            ->setDefinition([
+                new InputArgument('version', InputArgument::REQUIRED, 'The package version'),
+                new InputOption('name', null, InputArgument::OPTIONAL, 'Name of the package (if different from the composer.json file)'),
+                new InputOption('url', null, InputArgument::OPTIONAL, 'URL to the distant Nexus repository'),
+                new InputOption(self::REPOSITORY, null, InputArgument::OPTIONAL, 'which repository to save, use this parameter if you want to place development version and production version in different repository'),
+                new InputOption(
+                    'username',
+                    null,
+                    InputArgument::OPTIONAL,
+                    'Username to log in the distant Nexus repository'
+                ),
+                new InputOption('password', null, InputArgument::OPTIONAL, 'Password to log in the distant Nexus repository'),
+                new InputOption('ignore', 'i', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Directories and files to ignore when creating the zip'),
+                new InputOption('ignore-dirs', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, '<error>DEPRECATED</error> Directories to ignore when creating the zip'),
+                new InputOption('ignore-by-git-attributes', null, InputOption::VALUE_NONE, 'Ignore .gitattrbutes export-ignore directories when creating the zip'),
+                new InputOption('ignore-by-composer', null, InputOption::VALUE_NONE, 'Ignore composer.json archive-exclude files and directories when creating the zip'),
+                new InputOption('src-type', null, InputArgument::OPTIONAL, 'The source type (git/svn,...) pushed on composer on distant Nexus repository'),
+                new InputOption('src-url', null, InputArgument::OPTIONAL, 'The source url pushed on composer on distant Nexus repository'),
+                new InputOption('src-ref', null, InputArgument::OPTIONAL, 'The source reference pushed on composer on distant Nexus repository'),
+                new InputOption('keep-vendor', null, InputOption::VALUE_NONE, 'Keep vendor directory when creating zip'),
+                new InputOption('keep-dot-files', null, InputOption::VALUE_NONE, 'Keep dots files/dirs when creating zip')
+            ])
+            ->setHelp(
+                <<<EOT
 The <info>nexus-push</info> command uses the archive command to create a ZIP
 archive and send it to the configured (or given) nexus repository.
 EOT
-          )
-        ;
+            );
     }
 
     /**
@@ -133,10 +132,10 @@ EOT
             );
 
             $this->getIO()
-              ->write(
-                  'Execute the Nexus Push for the URL ' . $url . '...',
-                  true
-              );
+                ->write(
+                    'Execute the Nexus Push for the URL ' . $url . '...',
+                    true
+                );
 
             $this->sendFile(
                 $url,
@@ -149,14 +148,14 @@ EOT
             );
 
             $this->getIO()
-              ->write('Archive correctly pushed to the Nexus server');
+                ->write('Archive correctly pushed to the Nexus server');
         } finally {
             $this->getIO()
-              ->write(
-                  'Remove file ' . $fileName,
-                  true,
-                  IOInterface::VERY_VERBOSE
-              );
+                ->write(
+                    'Remove file ' . $fileName,
+                    true,
+                    IOInterface::VERY_VERBOSE
+                );
             unlink($fileName);
         }
     }
@@ -250,28 +249,28 @@ EOT
 
             foreach ($credentials as $type => $credential) {
                 $this->getIO()
-                  ->write(
-                      '[postFile] Trying credentials ' . $type,
-                      true,
-                      IOInterface::VERY_VERBOSE
-                  );
+                    ->write(
+                        '[postFile] Trying credentials ' . $type,
+                        true,
+                        IOInterface::VERY_VERBOSE
+                    );
 
                 try {
                     if (empty($credential) || empty($credential['username']) || empty($credential['password'])) {
                         $this->getIO()
-                          ->write(
-                              '[postFile] Use no credentials',
-                              true,
-                              IOInterface::VERY_VERBOSE
-                          );
+                            ->write(
+                                '[postFile] Use no credentials',
+                                true,
+                                IOInterface::VERY_VERBOSE
+                            );
                         $this->postFile($url, $filePath, $sourceType, $sourceUrl, $sourceReference);
                     } else {
                         $this->getIO()
-                          ->write(
-                              '[postFile] Use user ' . $credential['username'],
-                              true,
-                              IOInterface::VERY_VERBOSE
-                          );
+                            ->write(
+                                '[postFile] Use user ' . $credential['username'],
+                                true,
+                                IOInterface::VERY_VERBOSE
+                            );
                         $this->postFile(
                             $url,
                             $filePath,
@@ -288,26 +287,26 @@ EOT
                     if ($e->getResponse()->getStatusCode() === '401') {
                         if ($type === 'none') {
                             $this->getIO()
-                              ->write(
-                                  'Unable to push on server (authentication required)',
-                                  true,
-                                  IOInterface::VERY_VERBOSE
-                              );
+                                ->write(
+                                    'Unable to push on server (authentication required)',
+                                    true,
+                                    IOInterface::VERY_VERBOSE
+                                );
                         } else {
                             $this->getIO()
-                              ->write(
-                                  'Unable to authenticate on server with credentials ' . $type,
-                                  true,
-                                  IOInterface::VERY_VERBOSE
-                              );
+                                ->write(
+                                    'Unable to authenticate on server with credentials ' . $type,
+                                    true,
+                                    IOInterface::VERY_VERBOSE
+                                );
                         }
                     } else {
                         $this->getIO()
-                          ->writeError(
-                              'A network error occured while trying to upload to nexus: ' . $e->getMessage(),
-                              true,
-                              IOInterface::QUIET
-                          );
+                            ->writeError(
+                                'A network error occured while trying to upload to nexus: ' . $e->getMessage(),
+                                true,
+                                IOInterface::QUIET
+                            );
                     }
                 }
             }
@@ -376,14 +375,6 @@ EOT
             // https://github.com/composer/composer/issues/5998
             $autoload = $this->getVendorFile('/autoload.php');
 
-            // Require the guzzle functions manually.
-            $guzzlefunctions         = $this->getVendorFile('/guzzlehttp/guzzle/src/functions_include.php');
-            $guzzlepsr7functions     = $this->getVendorFile('/guzzlehttp/psr7/src/functions_include.php');
-            $guzzlepromisesfunctions = $this->getVendorFile('/guzzlehttp/promises/src/functions_include.php');
-
-            require $guzzlefunctions;
-            require $guzzlepsr7functions;
-            require $guzzlepromisesfunctions;
             require $autoload;
 
             $this->client = new Client();
@@ -473,13 +464,13 @@ EOT
                 }
             } else {
                 // configurations in composer.json support upload to multi repository
-                foreach ($extras['nexus-push'] as $key=> $nexusPushConfigItem) {
+                foreach ($extras['nexus-push'] as $key => $nexusPushConfigItem) {
                     if (empty($nexusPushConfigItem[self::PUSH_CFG_NAME])) {
                         $fmt = 'The nexus-push configuration array in composer.json with index {%s} need provide value for key "%s"';
                         $exceptionMsg = sprintf($fmt, $key, self::PUSH_CFG_NAME);
                         throw new InvalidConfigException($exceptionMsg);
                     }
-                    if ($nexusPushConfigItem[self::PUSH_CFG_NAME] ==$repository) {
+                    if ($nexusPushConfigItem[self::PUSH_CFG_NAME] == $repository) {
                         $this->nexusPushConfig = $nexusPushConfigItem;
                     }
                 }
@@ -546,7 +537,7 @@ EOT
         $gitAttrIgnores = $this->getGitAttributesExportIgnores($input);
         $composerJsonIgnores = $this->getComposerJsonArchiveExcludeIgnores($input);
 
-        if (! $input->getOption('keep-vendor')) {
+        if (!$input->getOption('keep-vendor')) {
             $defaultIgnores = ['vendor/'];
         } else {
             $defaultIgnores = [];
